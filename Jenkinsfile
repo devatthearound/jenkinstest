@@ -12,7 +12,7 @@ pipeline {
                 /* `make check` returns non-zero on test failures,
                 * using `true` to allow the Pipeline to continue nonetheless
                 */
-                echo "다운로드"
+                git credentialsId: '데브', url: 'https://github.com/devatthearound/jenkinstest.git'
             }
         }
 
