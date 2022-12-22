@@ -17,7 +17,7 @@ pipeline {
         stage('Start') {
             agent any
             steps {
-                slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} GIT 코멘트 ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             }
         }
         stage('download') {
@@ -25,7 +25,7 @@ pipeline {
                 /* `make check` returns non-zero on test failures,
                 * using `true` to allow the Pipeline to continue nonetheless
                 */
-                git credentialsId: 'gitdeploy', url: 'https://github.com/devatthearound/jenkinstest.git'
+                git credentialsId: 'devatthearound', url: 'https://github.com/devatthearound/jenkinstest.git'
             }
         }
 
@@ -78,10 +78,10 @@ pipeline {
     }
      post {
         success {
-            slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
         failure {
-            slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
 }
