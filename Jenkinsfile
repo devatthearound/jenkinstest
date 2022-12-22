@@ -7,6 +7,13 @@ pipeline {
     }
 
     stages {
+
+        stage('Start') {
+            agent any
+            steps {
+                slackSend (channel: '#migrator', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
         stage('download') {
             steps {
                 /* `make check` returns non-zero on test failures,
@@ -26,9 +33,19 @@ pipeline {
             steps {
                 echo "s3upoad"
                 withAWS(credentials:'s3', region:'ap-northeast-2') {
+                   s3Delete(bucket:'thearoundjenkins', path:'./')
                    s3Upload(file:'./', bucket:'thearoundjenkins', path:'./')
                 }
             }
         }
+
+        post {
+        success {
+            slackSend (channel: '#migrator', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend (channel: '#migrator', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
     }
 }
