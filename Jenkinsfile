@@ -4,22 +4,23 @@ pipeline {
         repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
         DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
         dockerImage = '' 
-  }
+    }
     agent any
 
-    tools{
-        git "git"
-        nodejs "nodejs"
-    }
-
+   
     stages {
 
-        stage('Start') {
-            agent any
-            steps {
-                slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} GIT 코멘트 ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        tools{
+                git "git"
+                nodejs "nodejs"
             }
-        }
+
+        // stage('Start') {
+        //     agent any
+        //     steps {
+        //         slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} GIT 코멘트 ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        //     }
+        // }
         stage('download') {
             steps {
                 /* `make check` returns non-zero on test failures,
@@ -78,10 +79,10 @@ pipeline {
     }
      post {
         success {
-            slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
         failure {
-            slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} ${env.COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
 }
