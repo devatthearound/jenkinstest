@@ -25,7 +25,7 @@ pipeline {
         stage('s3upload') {
             steps {
                 echo "s3upoad"
-                s3upload bucket: 'https://thearoundjenkins.s3.ap-northeast-2.amazonaws.com', file: 'index.js', path: './', pathStyleAccessEnabled: true, profileName: 's3deployer', region: 'ap-northeast-2', storageClass: 'STANDARD'
+                s3Upload bucket: 'https://thearoundjenkins.s3.ap-northeast-2.amazonaws.com', file: 'index.js', path: './', pathStyleAccessEnabled: true, profileName: 's3deployer', region: 'ap-northeast-2', storageClass: 'STANDARD'
             }
         }
     }
