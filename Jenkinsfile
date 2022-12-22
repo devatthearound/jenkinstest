@@ -1,4 +1,10 @@
 pipeline {
+
+        environment { 
+        repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
+        DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
+        dockerImage = '' 
+  }
     agent any
 
     tools{
@@ -25,19 +31,48 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "빌드"
+                sh "npm install -s"
             }
         }
 
-        stage('s3upload') {
-            steps {
-                echo "s3upoad"
-                withAWS(credentials:'s3', region:'ap-northeast-2') {
-                   s3Delete(bucket:'thearoundjenkins', path:'./')
-                   s3Upload(file:'./', bucket:'thearoundjenkins', path:'./')
-                }
-            }
-        }
+          stage('Building our image') { 
+          steps { 
+              script { 
+                  sh "cp /var/lib/jenkins/workspace/sue_jenkins_project/build/libs/sue-member-0.0.1-SNAPSHOT.war /var/lib/jenkins/workspace/pipeline/" // war 파일을 현재 위치로 복사 
+                  dockerImage = docker.build repository + ":$BUILD_NUMBER" 
+              }
+          } 
+      }
+
+      stage('Login'){
+          steps{
+              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' // docker hub 로그인
+          }
+      }
+      stage('Deploy our image') { 
+          steps { 
+              script {
+                sh 'docker push $repository:$BUILD_NUMBER' //docker push
+              } 
+          }
+      } 
+      stage('Cleaning up') { 
+		  steps { 
+              sh "docker rmi $repository:$BUILD_NUMBER" // docker image 제거
+          }
+      } 
+
+
+
+        // stage('s3upload') {
+        //     steps {
+        //         echo "s3upoad"
+        //         withAWS(credentials:'s3', region:'ap-northeast-2') {
+        //            s3Delete(bucket:'thearoundjenkins', path:'./')
+        //            s3Upload(file:'./', bucket:'thearoundjenkins', path:'./')
+        //         }
+        //     }
+        // }
 
 
     }
