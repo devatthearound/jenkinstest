@@ -7,8 +7,8 @@ pipeline {
                 /* `make check` returns non-zero on test failures,
                 * using `true` to allow the Pipeline to continue nonetheless
                 */
-                echo "hello!"
+                echo "vscode에서 업데이트@"
             }
         }
     }
-}
+}!
