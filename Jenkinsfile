@@ -1,19 +1,22 @@
 pipeline {
-
+      agent any
+      
         environment { 
         repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
         DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
         dockerImage = '' 
-    }
-    agent any
-
+            }
+      agent any
+      
    
-    stages {
-
         tools{
                 git "git"
                 nodejs "nodejs"
             }
+
+
+    stages {
+
 
         // stage('Start') {
         //     agent any
