@@ -25,7 +25,7 @@ pipeline {
         stage('s3upload') {
             steps {
                 echo "s3upoad"
-                withAWS(profile:'s3deployer') {
+                withAWS(credentials:'s3') {
                    s3Upload(file:'./', bucket:'https://thearoundjenkins.s3.ap-northeast-2.amazonaws.com', path:'./')
                 }
             }
