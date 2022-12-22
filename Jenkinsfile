@@ -36,7 +36,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh "npm install -s"
+                sh 'pwd'
+                dir('/var/lib/jenkins/workspace/s3upload'){
+                    sh "npm install -s"}
             }
         }
 
