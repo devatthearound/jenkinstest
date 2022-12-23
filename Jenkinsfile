@@ -25,6 +25,7 @@ pipeline {
         //         slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} GIT 코멘트 ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         //     }
         // }
+        
         stage('download') {
             steps {
                 /* `make check` returns non-zero on test failures,
