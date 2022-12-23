@@ -2,11 +2,11 @@ pipeline {
 
     agent any
 
-    environment { 
-        repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
-        DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
-        dockerImage = '' 
-            }
+    // environment { 
+    //     repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
+    //     DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
+    //     dockerImage = '' 
+    //         }
 
 
    
@@ -37,10 +37,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "${env.HOOK_NAME}"
-                sh 'pwd'
-                dir('/var/lib/jenkins/workspace/s3upload'){
-                    sh "npm install -s"}
+                echo "${GIT_BRANCH}"
+                // sh 'pwd'
+                // dir('/var/lib/jenkins/workspace/s3upload'){
+                //     sh "npm install -s"}
             }
         }
 
