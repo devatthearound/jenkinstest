@@ -25,7 +25,7 @@ pipeline {
         //         slackSend (channel: '26-기술개발', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} GIT 코멘트 ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         //     }
         // }
-        
+
         stage('download') {
             steps {
                 /* `make check` returns non-zero on test failures,
@@ -37,6 +37,7 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo "*{env.HOOK_NAME}"
                 sh 'pwd'
                 dir('/var/lib/jenkins/workspace/s3upload'){
                     sh "npm install -s"}
@@ -83,12 +84,12 @@ pipeline {
 
 
     }
-     post {
-        success {
-            slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-        failure {
-            slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-    }
+    //  post {
+    //     success {
+    //         slackSend (channel: '26-기술개발', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    //     }
+    //     failure {
+    //         slackSend (channel: '26-기술개발', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} ${env.GIT_COMMIT} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    //     }
+    // }
 }
