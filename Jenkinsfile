@@ -31,11 +31,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-               echo "${env.GIT_BRANCH}"
-            }
-        }
 
     //       stage('Building our image') { 
     //       steps { 
