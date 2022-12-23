@@ -37,7 +37,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "${env.GIT_BRANCH}"
+                echo "${GIT_BRANCH}"
                 // sh 'pwd'
                 // dir('/var/lib/jenkins/workspace/s3upload'){
                 //     sh "npm install -s"}
