@@ -37,38 +37,38 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "*{env.HOOK_NAME}"
+                echo "${env.HOOK_NAME}"
                 sh 'pwd'
                 dir('/var/lib/jenkins/workspace/s3upload'){
                     sh "npm install -s"}
             }
         }
 
-          stage('Building our image') { 
-          steps { 
-              script { 
-                  dockerImage = docker.build repository + ":$BUILD_NUMBER" 
-              }
-          } 
-      }
+    //       stage('Building our image') { 
+    //       steps { 
+    //           script { 
+    //               dockerImage = docker.build repository + ":$BUILD_NUMBER" 
+    //           }
+    //       } 
+    //   }
 
-      stage('Login'){
-          steps{
-              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' // docker hub 로그인
-          }
-      }
-      stage('Deploy our image') { 
-          steps { 
-              script {
-                sh 'docker push $repository:$BUILD_NUMBER' //docker push
-              } 
-          }
-      } 
-      stage('Cleaning up') { 
-		  steps { 
-              sh "docker rmi $repository:$BUILD_NUMBER" // docker image 제거
-          }
-      } 
+    //   stage('Login'){
+    //       steps{
+    //           sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' // docker hub 로그인
+    //       }
+    //   }
+    //   stage('Deploy our image') { 
+    //       steps { 
+    //           script {
+    //             sh 'docker push $repository:$BUILD_NUMBER' //docker push
+    //           } 
+    //       }
+    //   } 
+    //   stage('Cleaning up') { 
+	// 	  steps { 
+    //           sh "docker rmi $repository:$BUILD_NUMBER" // docker image 제거
+    //       }
+    //   } 
 
 
 
