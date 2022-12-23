@@ -27,18 +27,15 @@ pipeline {
                 */
                 // git credentialsId: 'devatthearound', url: 'https://github.com/devatthearound/jenkinstest.git'
                 echo "${env.BRANCH_NAME}"
-                echo "${env.GIT_BRANCH}"
+ 
             }
         }
 
-        // stage('Build') {
-        //     steps {
-        //         echo "${env.HOOK_NAME}"
-        //         sh 'pwd'
-        //         dir('/var/lib/jenkins/workspace/s3upload'){
-        //             sh "npm install -s"}
-        //     }
-        // }
+        stage('Build') {
+            steps {
+               echo "${env.GIT_BRANCH}"
+            }
+        }
 
     //       stage('Building our image') { 
     //       steps { 
