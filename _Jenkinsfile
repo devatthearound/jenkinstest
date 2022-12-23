@@ -2,7 +2,13 @@ pipeline {
 
     agent any
 
-    branch = env.BRANCH_NAME
+    // environment { 
+    //     repository = "devatthearound/jenkinstest"  //docker hub id와 repository 이름
+    //     DOCKERHUB_CREDENTIALS = credentials('docker') // jenkins에 등록해 놓은 docker hub credentials 이름
+    //     dockerImage = '' 
+    //         }
+
+
    
    tools{
                 git "git"
@@ -25,20 +31,18 @@ pipeline {
                 /* `make check` returns non-zero on test failures,
                 * using `true` to allow the Pipeline to continue nonetheless
                 */
-                // git credentialsId: 'devatthearound', url: 'https://github.com/devatthearound/jenkinstest.git'
-                echo "${env.BRANCH_NAME}"
-                echo "${env.GIT_BRANCH}"
+                git credentialsId: 'devatthearound', url: 'https://github.com/devatthearound/jenkinstest.git'
             }
         }
 
-        // stage('Build') {
-        //     steps {
-        //         echo "${env.HOOK_NAME}"
-        //         sh 'pwd'
-        //         dir('/var/lib/jenkins/workspace/s3upload'){
-        //             sh "npm install -s"}
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                // echo "${GIT_BRANCH.spli}"
+                // sh 'pwd'
+                // dir('/var/lib/jenkins/workspace/s3upload'){
+                //     sh "npm install -s"}
+            }
+        }
 
     //       stage('Building our image') { 
     //       steps { 
